@@ -21,6 +21,7 @@ public class SQLiteWriteQueue {
     }
 
     public void addToQueue(String tableName, List<ProductInfo> productInfo) throws InterruptedException {
+
         if (!queueMap.containsKey(tableName)){
             createQueue(tableName);
         }

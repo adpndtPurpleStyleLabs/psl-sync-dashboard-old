@@ -98,7 +98,6 @@ public class SQLiteWriteWorker {
             }
         try {
             writeQueue.addToQueue(tableName, productInfoBulk);
-            writeQueue.createQueue(tableName);
         } catch (InterruptedException ignored) {}
     }
 }
