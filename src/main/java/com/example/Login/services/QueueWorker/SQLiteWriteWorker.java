@@ -67,7 +67,7 @@ public class SQLiteWriteWorker {
                     }
                 }
             } finally {
-                restartWorkerIfNeeded(tableName);
+//                restartWorkerIfNeeded(tableName);
             }
         });
     }
