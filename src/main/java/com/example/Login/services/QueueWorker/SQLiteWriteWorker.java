@@ -57,6 +57,7 @@ public class SQLiteWriteWorker {
                         }
 
                         saveToDatabase(tableName, jsonMsg.getValue());
+                        System.gc();
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         break;

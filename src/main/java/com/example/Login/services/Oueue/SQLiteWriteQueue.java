@@ -29,13 +29,11 @@ public class SQLiteWriteQueue {
 
 
     public AbstractMap.SimpleEntry<String, List<ProductInfo>> getMessageFromQueue(String tableName) throws InterruptedException  {
-        if (!queueMap.containsKey(tableName)){
+        if (!queueMap.containsKey(tableName)) {
             return null;
         }
         AbstractMap.SimpleEntry<String, List<ProductInfo>> entry = queueMap.computeIfAbsent(tableName, k -> new LinkedBlockingQueue<>()).poll(1, TimeUnit.SECONDS);
-        if(null == entry){
-            BlockingQueue<AbstractMap.SimpleEntry<String, List<ProductInfo>>> a = queueMap.get(tableName);
-            a = null;
+        if (null == entry) {
             queueMap.remove(tableName);
             System.out.println(tableName + " removed from queue because empty");
         }

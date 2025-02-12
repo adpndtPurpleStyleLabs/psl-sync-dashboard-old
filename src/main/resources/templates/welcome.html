@@ -2,138 +2,245 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome | My Application</title>
-
-    <!-- Bootstrap 5 CDN -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Service</title>
+    <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom Styles -->
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-
-        .hero-section {
-            background: linear-gradient(to right, #007bff, #0056b3);
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-        }
-
-        .hero-section h1 {
-            font-size: 48px;
-            font-weight: bold;
-        }
-
-        .hero-section p {
-            font-size: 20px;
-        }
-
-        .features {
-            padding: 50px 0;
-        }
-
-        .feature-box {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .feature-box i {
-            font-size: 50px;
-            color: #007bff;
-        }
-
-        .cta-section {
-            background-color: #f8f9fa;
-            padding: 50px;
-            text-align: center;
-        }
-
-        .footer {
-            background: #343a40;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 30px;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="script.js"></script>
 </head>
+<style>
+    /* Reset some default styles */
+    body, h1, p, ul {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background-color: #f4f4f4;
+        line-height: 1.6;
+    }
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    /* Header Styling */
+    header {
+        background-color: #0a2540;
+        color: #fff;
+        padding: 20px 0;
+    }
+
+    header .logo img {
+        height: 40px;
+    }
+
+    header nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    header nav ul li {
+        margin-left: 20px;
+    }
+
+    header nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    header nav ul li a:hover {
+        color: #ff5c26;
+    }
+
+    header nav ul li a.button {
+        background-color: #ff5c26;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+    /* Hero Section */
+    .hero {
+        background: url('hero-bg.jpg') no-repeat center center/cover;
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        position: relative;
+    }
+
+    .hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        font-size: 1.2em;
+        margin-bottom: 30px;
+    }
+
+    .cta-button {
+        background-color: #ff5c26;
+        color: #fff;
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .cta-button:hover {
+        background-color: #d44a1f;
+    }
+
+    /* Features Section */
+    .features {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        padding: 50px 0;
+        background: white;
+    }
+
+    .feature {
+        width: 30%;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 10px;
+        transition: transform 0.3s;
+    }
+
+    .feature img {
+        width: 80px;
+    }
+
+    .feature:hover {
+        transform: scale(1.05);
+    }
+
+    /* Footer Styling */
+    footer {
+        background-color: #0a2540;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    footer ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    footer ul li {
+        margin: 0 10px;
+    }
+
+    footer ul li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+</style>
 <body>
 
-<!-- Navbar -->
 <div th:replace="nav.html"></div>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- Header Section -->
+<header>
     <div class="container">
-        <a class="navbar-brand" href="#">MyApp</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-3" href="#">Get Started</a></li>
-            </ul>
+        <div class="logo">
+            <img src="logo.png" alt="Company Logo">
         </div>
+        <nav>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#login" class="button">Log In</a></li>
+            </ul>
+        </nav>
     </div>
-</nav>
+</header>
 
 <!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <h1>Welcome to My Application</h1>
-        <p>Effortless and seamless solutions for your needs.</p>
-        <a href="#" class="btn btn-light btn-lg mt-3">Get Started</a>
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Our Service</h1>
+        <p>Your journey to better performance monitoring starts here.</p>
+        <a href="#get-started" class="cta-button">Get Started Free</a>
     </div>
 </section>
 
 <!-- Features Section -->
-<section class="features">
-    <div class="container text-center">
-        <h2>Why Choose Us?</h2>
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="feature-box">
-                    <i class="bi bi-lightning"></i>
-                    <h4>Fast & Efficient</h4>
-                    <p>Our system ensures smooth and fast operations.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-box">
-                    <i class="bi bi-shield-lock"></i>
-                    <h4>Secure</h4>
-                    <p>Top-notch security for your data and transactions.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-box">
-                    <i class="bi bi-people"></i>
-                    <h4>User Friendly</h4>
-                    <p>Simple and intuitive design for easy access.</p>
-                </div>
-            </div>
-        </div>
+<section class="features" id="features">
+    <div class="feature">
+        <img src="analytics.png" alt="Analytics Icon">
+        <h3>Real-Time Analytics</h3>
+        <p>Track and optimize your system in real-time with advanced analytics.</p>
+    </div>
+    <div class="feature">
+        <img src="security.png" alt="Security Icon">
+        <h3>Secure & Reliable</h3>
+        <p>We ensure top-notch security and data protection for your business.</p>
+    </div>
+    <div class="feature">
+        <img src="performance.png" alt="Performance Icon">
+        <h3>Performance Boost</h3>
+        <p>Enhance your system efficiency with AI-powered performance tracking.</p>
     </div>
 </section>
 
-<!-- Call to Action Section -->
-<section class="cta-section">
-    <h2>Ready to Get Started?</h2>
-    <p>Join us today and experience the difference.</p>
-    <a href="#" class="btn btn-primary btn-lg">Sign Up Now</a>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
+<!-- Footer Section -->
+<footer>
     <div class="container">
-        <p>&copy; 2024 MyApp. All rights reserved.</p>
+        <p>&copy; 2025 Our Company, Inc. All rights reserved.</p>
+        <ul>
+            <li><a href="#terms">Terms of Service</a></li>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
     </div>
 </footer>
-
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("Welcome Page Loaded!");
+
+        // Adding a hover effect on CTA button
+        const ctaButton = document.querySelector(".cta-button");
+        ctaButton.addEventListener("mouseover", () => {
+            ctaButton.style.transform = "scale(1.1)";
+        });
+
+        ctaButton.addEventListener("mouseleave", () => {
+            ctaButton.style.transform = "scale(1)";
+        });
+    });
+
+</script>
 </html>
