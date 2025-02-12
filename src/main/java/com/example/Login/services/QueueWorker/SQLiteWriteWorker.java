@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Component
 public class SQLiteWriteWorker {
@@ -26,7 +27,7 @@ public class SQLiteWriteWorker {
     @Value("${WORKER_COUNT}")
     private int workerCount;
 
-    private final ConcurrentHashMap<String, ExecutorService> workerPools = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, ThreadPoolExecutor> workerPools = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void init() {
@@ -39,7 +40,9 @@ public class SQLiteWriteWorker {
     }
 
     public void startWorker(String tableName) {
-        workerPools.putIfAbsent(tableName, Executors.newFixedThreadPool(5));
+        workerPools.putIfAbsent(tableName, (ThreadPoolExecutor) Executors.newFixedThreadPool(5));
+        ThreadPoolExecutor executor = workerPools.get(tableName);
+        System.out.println("Thread Count "+ tableName+ " " + executor== null? executor.getActiveCount() : 0);
         for (int i = 0; i < workerCount; i++) {
             submitWorkerTask(tableName);
         }
@@ -52,10 +55,8 @@ public class SQLiteWriteWorker {
                     try {
                         AbstractMap.SimpleEntry<String, List<ProductInfo>> jsonMsg = writeQueue.getMessageFromQueue(tableName);
                         if (jsonMsg == null) {
-                            Thread.sleep(999);
-                            continue;
+                            break;
                         }
-
                         saveToDatabase(tableName, jsonMsg.getValue());
                         System.gc();
                     } catch (InterruptedException e) {
@@ -78,7 +79,6 @@ public class SQLiteWriteWorker {
         });
     }
 
-
     private void saveToDatabase(String tableName, List<ProductInfo> productInfoBulk) {
             try {
                 String sql = "INSERT INTO " + tableName + " (id, jsonData, receivedAt) VALUES (?, ?, ?) " +
@@ -98,6 +98,7 @@ public class SQLiteWriteWorker {
             }
         try {
             writeQueue.addToQueue(tableName, productInfoBulk);
+            writeQueue.createQueue(tableName);
         } catch (InterruptedException ignored) {}
     }
 }

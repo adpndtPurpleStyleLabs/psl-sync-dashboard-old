@@ -1,6 +1,7 @@
 package com.example.Login.services.Oueue;
 
 import com.example.Login.dto.ProductInfo;
+import com.example.Login.services.QueueWorker.SQLiteWriteWorker;
 import org.springframework.stereotype.Service;
 
 import java.util.AbstractMap;
@@ -37,7 +38,7 @@ public class SQLiteWriteQueue {
             queueMap.remove(tableName);
             System.out.println(tableName + " removed from queue because empty");
         }
-        return null;
+        return entry;
     }
 
     public int getQueueSize(String tableName) {
