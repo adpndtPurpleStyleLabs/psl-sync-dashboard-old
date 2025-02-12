@@ -48,7 +48,7 @@ public class WebhookService {
                 }
                 aa.add(String.join(",", a));
                 queueService.addToQueue(payload.getEventKey().trim()+"_pid", chunk);
-                sqLiteWriteWorker.startWorker(tableName);
+                sqLiteWriteWorker.startWorker(payload.getEventKey().trim()+"_pid");
             }
             commonDao.batchSaveProductIds(payload, aa);
             triggerWebsocket(payload.getEventKey() ,"1min");
