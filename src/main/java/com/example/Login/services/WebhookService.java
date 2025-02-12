@@ -7,7 +7,6 @@ import com.example.Login.repo.WebhookRepository;
 import com.example.Login.services.Oueue.SQLiteWriteQueue;
 import com.example.Login.services.QueueWorker.SQLiteWriteWorker;
 import com.example.Login.services.websocketHandler.ChartWebSocketHandler;
-import com.example.Login.services.websocketHandler.CounterWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +48,7 @@ public class WebhookService {
                 }
                 aa.add(String.join(",", a));
                 queueService.addToQueue(payload.getEventKey().trim()+"_pid", chunk);
+                sqLiteWriteWorker.startWorker(tableName);
             }
             commonDao.batchSaveProductIds(payload, aa);
             triggerWebsocket(payload.getEventKey() ,"1min");
