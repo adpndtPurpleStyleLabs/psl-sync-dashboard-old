@@ -21,7 +21,7 @@ public class Trigger {
 
     @Autowired
     private WebhookService webhookService;
-    private static final ObjectMapper objectMapper = new ObjectMapper(); // Reuse ObjectMapper
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping("/a")
     public boolean triggerWebhook(@RequestBody Map<String, Object> payload) {

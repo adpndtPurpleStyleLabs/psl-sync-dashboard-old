@@ -2,23 +2,59 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
-<nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed">
+
+<nav class="sidebar">
     <button class="toggle-btn" onclick="toggleSidebar()">
         <i class="fas fa-chevron-left"></i>
     </button>
 
-    <div class="p-4">
-        <h4 class="logo-text fw-bold mb-0">NexusFlow</h4>
-        <p class="text-muted small hide-on-collapse">Dashboard</p>
+    <div class="sidebar-header">
+        <h4 class="logo-text">PSL</h4>
     </div>
 
-    <div class="nav flex-column">
-        <!-- Thymeleaf Loop for Sidebar Menu Items -->
-        <a th:each="item : ${menuItems}"
-           th:href="@{${item.link}}"
-           class="sidebar-link text-decoration-none p-3">
-            <i th:classappend="'fas ' + ${item.icon} + ' me-3'"></i>
-            <span class="hide-on-collapse" th:text="${item.name}"></span>
+    <div class="nav">
+        <!-- Loop through Main Menu Items -->
+        <div th:each="item : ${menuItems}" class="menu-item" style="width: -webkit-fill-available;">
+            <!-- Main Menu Item -->
+            <a th:href="@{${item.link}}"
+               class="sidebar-link"
+               th:classappend="${not #lists.isEmpty(item.subMenuItems) ? 'has-submenu' : ''}"
+               th:data-has-submenu="${not #lists.isEmpty(item.subMenuItems)}">
+                <div class="menu-content">
+                    <i th:classappend="'fas ' + ${item.icon}"></i>
+                    <span class="menu-text" th:text="${item.name}"></span>
+                </div>
+                <i th:if="${not #lists.isEmpty(item.subMenuItems)}" class="fas fa-chevron-right submenu-icon"></i>
+            </a>
+
+            <!-- Submenu Items -->
+            <div th:if="${not #lists.isEmpty(item.subMenuItems)}" class="submenu">
+                <a th:each="subItem : ${item.subMenuItems}"
+                   th:href="@{${subItem.link}}"
+                   class="sidebar-link submenu-item">
+                    <div class="menu-content">
+                        <i th:classappend="'fas ' + ${subItem.icon}"></i>
+                        <span class="menu-text" th:text="${subItem.name}"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Button at Bottom -->
+    <div class="logout-container">
+        <a th:href="@{/logout}" class="sidebar-link">
+            <div class="menu-content">
+                <i class="fa fa-plus"></i>
+                <span class="menu-text">Create New Menu </span>
+            </div>
+        </a>
+
+        <a th:href="@{/logout}" class="sidebar-link logout-link">
+            <div class="menu-content">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="menu-text">Logout</span>
+            </div>
         </a>
     </div>
 </nav>
@@ -27,5 +63,32 @@
     function toggleSidebar() {
         const sidebar = document.querySelector('.sidebar');
         sidebar.classList.toggle('collapsed');
+
+        // Hide text when sidebar is collapsed
+        document.querySelectorAll('.menu-text').forEach(el => {
+            if (sidebar.classList.contains('collapsed')) {
+                el.style.display = 'none';
+            } else {
+                el.style.display = 'inline';
+            }
+        });
+
+        // Adjust arrow direction when sidebar is collapsed
+        document.querySelectorAll('.submenu-icon').forEach(icon => {
+            icon.classList.toggle('rotate', sidebar.classList.contains('collapsed'));
+        });
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".has-submenu").forEach(menu => {
+            menu.addEventListener("click", function (event) {
+                event.preventDefault();
+                let submenu = this.nextElementSibling;
+                if (submenu) {
+                    submenu.classList.toggle("open");
+                    this.querySelector(".submenu-icon").classList.toggle("rotate-down");
+                }
+            });
+        });
+    });
 </script>

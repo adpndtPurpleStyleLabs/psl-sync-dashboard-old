@@ -68,9 +68,9 @@ public class WebhookService {
                 , formatter.format(queueService.getQueueSize(tableName+ "_pid")));
     }
 
-    public List<DayWiseCountDto> getLastDayData(String tableName) {
-        return commonDao.getWeekData(tableName);
-    }
+//    public List<DayWiseCountDto> getLastDayData(String tableName) {
+//        return commonDao.getWeekData(tableName);
+//    }
 
     public List<SearchDto> getSyncedProductIds(String tableName , int page, int size, String productId) {
         if (productId == null || productId == "") {

@@ -1,115 +1,134 @@
-:root {
-    --sidebar-width: 280px;
-    --sidebar-width-collapsed: 80px;
-}
-
-body {
-    overflow-x: hidden;
-}
-
+/* Sidebar Container */
 .sidebar {
-    width: var(--sidebar-width);
+    width: 250px;
     height: 100vh;
-    background: linear-gradient(135deg, #1a1c2e 0%, #16181f 100%);
-    transition: all 0.3s ease;
+    background: #131722; /* Dark background */
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease-in-out;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Collapsed Sidebar */
 .sidebar.collapsed {
-    width: var(--sidebar-width-collapsed);
+    width: 80px;
 }
 
-.sidebar-link {
-    color: #a0a3bd;
-    transition: all 0.2s ease;
-    border-radius: 8px;
-    margin: 4px 16px;
-    white-space: nowrap;
-    overflow: hidden;
+/* Hide menu text when collapsed */
+.sidebar.collapsed .menu-text {
+    display: none !important;
 }
 
-.sidebar-link:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
-}
-
-.sidebar-link.active {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.logo-text {
-    background: linear-gradient(45deg, #6b8cff, #8b9fff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: opacity 0.3s ease;
-}
-
-.notification-badge {
-    background: #ff6b6b;
-    padding: 2px 6px;
-    border-radius: 6px;
-    font-size: 0.7rem;
-}
-
-.profile-section {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.main-content {
-    margin-left: var(--sidebar-width);
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    padding: 20px;
-    transition: all 0.3s ease;
-}
-
-.collapsed~.main-content {
-    margin-left: var(--sidebar-width-collapsed);
-}
-
+/* Sidebar Toggle Button */
 .toggle-btn {
-    position: absolute;
-    right: -15px;
-    top: 20px;
     background: white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
     border: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    z-index: 100;
+    color: black;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    position: absolute;
+    right: -20px;
+    top: 20px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
 }
 
-.collapsed .toggle-btn {
-    transform: rotate(180deg);
+/* Sidebar Header */
+.sidebar-header {
+    text-align: left;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.collapsed .hide-on-collapse {
-    opacity: 0;
-    visibility: hidden;
+/* Sidebar Links */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: white;
+    transition: background 0.3s;
+    font-size: 15px;
+    justify-content: space-between; /* Keeps arrow near the right edge */
 }
 
-.collapsed .logo-text {
-    opacity: 0;
+/* Sidebar Links Hover */
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.collapsed .profile-info {
-    opacity: 0;
+/* Sidebar Icons */
+.sidebar-link i {
+    margin-right: 10px;
 }
 
-.collapsed .sidebar-link {
-    text-align: center;
-    padding: 1rem !important;
-    margin: 4px 8px;
+/* Menu Content (Icon + Text) */
+.menu-content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Ensures proper alignment */
 }
 
-.collapsed .sidebar-link i {
-    margin: 0 !important;
+/* Chevron Icon for Submenus (Always Near Right Edge) */
+.submenu-icon {
+    margin-left: auto;
+    padding-right: 15px; /* Moves arrow to the right edge */
+    transition: transform 0.3s;
 }
 
-.profile-info {
-    transition: opacity 0.2s ease;
+/* Submenu Styling */
+.submenu {
+    display: none;
+    padding-left: 20px;
+    background: #1a1f2e;
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu.open {
+    display: block;
+}
+
+/* Submenu Items */
+.submenu-item {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* Submenu Items Hover */
+.submenu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Rotate Arrow When Submenu Opens */
+.rotate-down {
+    transform: rotate(90deg);
+}
+
+/* Logout Button */
+.logout-container {
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logout-link {
+    color: #ff4d4d;
+    font-weight: bold;
+    height: 20px;
+}
+
+.logout-link:hover {
+    background: rgba(255, 0, 0, 0.1);
 }

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,14 @@ public class LoginSontroller {
 
     @GetMapping({"/","/index"})
     public String home(  Model model) {
-        model.addAttribute("menuItems", navbarService.fetchAllNavBarMenus());
+        List<MenuItem> menuItems = navbarService.fetchAllNavBarMenus();
+        ArrayList<MenuItem> mainMenus = new ArrayList<MenuItem>();
+        mainMenus.add(new MenuItem("Product Sync", "","fa-chart-bar", menuItems));
+        model.addAttribute("menuItems", mainMenus);
+        model.addAttribute("webhookCountLastMinute", "count");
+
+        mainMenus.add(new MenuItem("Psl Crons", "","fa-chart-bar", menuItems));
+        model.addAttribute("menuItems", mainMenus);
         model.addAttribute("webhookCountLastMinute", "count");
         return "welcome";
     }
@@ -41,10 +49,19 @@ public class LoginSontroller {
     @GetMapping("/index/{table_name}")
     public String homeCustom(@PathVariable String table_name,  Model model) {
         List<MenuItem> menuItems = navbarService.fetchAllNavBarMenus();
+
         Optional<MenuItem> newMenuItem = menuItems.stream()
                 .filter(item -> ("/index/"+table_name).equals(item.getLink()))
                 .findFirst();
-        model.addAttribute("menuItems", navbarService.fetchAllNavBarMenus());
+
+        ArrayList<MenuItem> mainMenus = new ArrayList<MenuItem>();
+        mainMenus.add(new MenuItem("Product Sync", "","fa-chart-bar", menuItems));
+
+        mainMenus.add(new MenuItem("Psl Crons", "","fa-chart-bar", menuItems));
+        model.addAttribute("menuItems", mainMenus);
+        model.addAttribute("webhookCountLastMinute", "count");
+
+        model.addAttribute("menuItems", mainMenus);
         model.addAttribute("dashboardName", newMenuItem.get().getName());
         model.addAttribute("tableName", table_name);
         return "index";

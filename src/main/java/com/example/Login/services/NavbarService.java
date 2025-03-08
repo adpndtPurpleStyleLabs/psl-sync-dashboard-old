@@ -17,9 +17,9 @@ public class NavbarService {
     public List<MenuItem> fetchAllNavBarMenus() {
         List<MenuItem> menuItems = new ArrayList<>();
         for (Webhook webhook : webhookRepository.findAll()) {
-            menuItems.add(new MenuItem(webhook.getEventName(), "/index/" + webhook.getEventKey(), "fa-chart-bar"));
+            menuItems.add(new MenuItem(webhook.getEventName(), "/index/" + webhook.getEventKey(), "fa-chart-bar", null));
         }
-        menuItems.add(new MenuItem("Create new dashboard", "/webhooks/new", "fa fa-plus"));
+        menuItems.add(new MenuItem("Create new dashboard", "/webhooks/new", "fa fa-plus",  null));
         return menuItems;
     }
 }
